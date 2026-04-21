@@ -1,0 +1,701 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Little Florets School — Where Little Minds Bloom</title>
+  <meta name="description" content="Little Florets School — a premium preschool, primary, day care and clubs experience. Admissions open." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="site/styles.css" />
+  <!-- GSAP (GreenSock) — premium-grade animation engine -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVBAR
+     ============================================================ -->
+<header class="nav">
+  <div class="container nav__inner">
+    <a href="#" class="brand">
+      <span class="brand__mark">✿</span>
+      <span class="brand__name">Little Florets</span>
+    </a>
+    <nav class="nav__links">
+      <a href="#programs">Programs</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#testimonials">Voices</a>
+      <a href="#news">News</a>
+      <a href="#branches">Branches</a>
+    </nav>
+    <a href="#cta" class="btn btn--pill">Apply Now</a>
+  </div>
+</header>
+
+<!-- ============================================================
+     1. HERO — Premium parallax (mouse-reactive)
+     Replace cutouts: /public/images/kid-1.png, kid-2.png, kid-3.png
+     Replace shapes:  /public/images/shape-*.png
+     Each .parallax__layer uses data-speed to control depth.
+     Higher value = moves more = feels closer.
+     ============================================================ -->
+<section class="hero hero--parallax" id="hero">
+  <!-- Soft pastel gradient + decorative blobs (CSS painted) -->
+  <div class="hero__bg" aria-hidden="true">
+    <span class="blob blob--a"></span>
+    <span class="blob blob--b"></span>
+    <span class="blob blob--c"></span>
+    <span class="grain"></span>
+  </div>
+
+  <div class="container hero__grid">
+    <!-- LEFT: text -->
+    <div class="hero__text">
+      <span class="eyebrow">Admissions Open · 2026 — 27</span>
+      <h1 class="hero__title">
+        A premium <em>preschool</em><br/>where learning feels like play.
+      </h1>
+      <p class="hero__sub">Thoughtfully designed campuses, world-class educators, and a curriculum built to nurture confident, curious children.</p>
+      <div class="hero__actions">
+        <a href="#cta" class="btn btn--primary btn--lg">Book a Visit</a>
+        <a href="#programs" class="btn btn--pill btn--lg">Explore Programs →</a>
+      </div>
+
+      <div class="hero__mini">
+        <div><strong>15+</strong><span>Years of joy</span></div>
+        <div><strong>1:6</strong><span>Teacher ratio</span></div>
+        <div><strong>4.9★</strong><span>Parent love</span></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: parallax stage -->
+    <div class="hero__stage" aria-hidden="true">
+      <!-- Floating shapes (background depth) -->
+      <img class="parallax__layer p-shape p-cloud-1" data-speed="2"  src="images/shape-cloud.png" alt="" />
+      <img class="parallax__layer p-shape p-cloud-2" data-speed="3"  src="images/shape-cloud.png" alt="" />
+      <img class="parallax__layer p-shape p-rainbow" data-speed="4"  src="images/shape-rainbow.png" alt="" />
+      <img class="parallax__layer p-shape p-star-1"  data-speed="6"  src="images/shape-star.png" alt="" />
+      <img class="parallax__layer p-shape p-star-2"  data-speed="8"  src="images/shape-star.png" alt="" />
+      <img class="parallax__layer p-shape p-books"   data-speed="5"  src="images/shape-books.png" alt="" />
+      <img class="parallax__layer p-shape p-pencil"  data-speed="9"  src="images/shape-pencil.png" alt="" />
+
+      <!-- Kid cutouts (foreground — move more) -->
+      <img class="parallax__layer p-kid p-kid-1" data-speed="10" src="images/kid-1.png" alt="Smiling preschool girl" />
+      <img class="parallax__layer p-kid p-kid-2" data-speed="7"  src="images/kid-2.png" alt="Boy reading a book" />
+      <img class="parallax__layer p-kid p-kid-3" data-speed="12" src="images/kid-3.png" alt="Joyful jumping kid" />
+
+      <!-- Soft ground ellipse -->
+      <span class="hero__ground"></span>
+    </div>
+  </div>
+
+  <!-- decorative dots -->
+  <div class="hero__dots">
+    <span class="dot dot--active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+</section>
+
+<!-- Hero parallax — powered by GSAP for smooth, eased motion -->
+<script>
+window.addEventListener('load', function () {
+  if (typeof gsap === 'undefined') return;
+  var stage = document.querySelector('.hero__stage');
+  if (!stage) return;
+  var layers = Array.prototype.slice.call(stage.querySelectorAll('.parallax__layer'));
+  var isTouch = window.matchMedia('(hover: none), (max-width: 820px)').matches;
+  var reduce  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Continuous, very subtle floating yoyo on every layer (works on all devices)
+  layers.forEach(function (el, i) {
+    var depth = parseFloat(el.getAttribute('data-speed')) || 1;
+    var amp = Math.min(2 + depth * 0.4, 5); // 2–5px range
+    gsap.to(el, {
+      y: '+=' + amp,
+      x: '+=' + (amp * 0.5),
+      duration: 2.4 + (i % 4) * 0.4,
+      ease: 'sine.inOut',
+      yoyo: true,
+      repeat: -1,
+      delay: (i % 5) * 0.15,
+    });
+  });
+
+  if (isTouch || reduce) {
+    stage.classList.add('hero__stage--auto');
+    return;
+  }
+
+  // Mouse-reactive parallax — GSAP quickTo gives buttery, eased follow
+  var setters = layers.map(function (el) {
+    var speed = parseFloat(el.getAttribute('data-speed')) || 1;
+    return {
+      el: el,
+      speed: speed,
+      x: gsap.quickTo(el, 'x', { duration: 0.9, ease: 'power3.out' }),
+      y: gsap.quickTo(el, 'y', { duration: 0.9, ease: 'power3.out' }),
+    };
+  });
+
+  window.addEventListener('mousemove', function (e) {
+    var nx = (e.clientX / window.innerWidth  - 0.5) * 2;
+    var ny = (e.clientY / window.innerHeight - 0.5) * 2;
+    for (var i = 0; i < setters.length; i++) {
+      var s = setters[i];
+      s.x(-nx * s.speed);
+      s.y(-ny * s.speed);
+    }
+  }, { passive: true });
+
+  // Hero text intro — staggered reveal
+  gsap.from('.hero__text > *', {
+    y: 28, opacity: 0, duration: 0.9, ease: 'power3.out', stagger: 0.08, delay: 0.1,
+  });
+});
+</script>
+
+<!-- ============================================================
+     QUICK STATS STRIP
+     ============================================================ -->
+<section class="stats">
+  <div class="container stats__grid">
+    <!-- Duplicate to add another stat -->
+    <div class="stat"><span class="stat__num">12+</span><span class="stat__lbl">Years of nurturing</span></div>
+    <div class="stat"><span class="stat__num">3</span><span class="stat__lbl">Premium branches</span></div>
+    <div class="stat"><span class="stat__num">1:8</span><span class="stat__lbl">Teacher : child ratio</span></div>
+    <div class="stat"><span class="stat__num">2,400+</span><span class="stat__lbl">Happy alumni</span></div>
+  </div>
+</section>
+
+<!-- ============================================================
+     1.5  CIRCULAR INFOGRAPHIC — "Pillars of Learning"
+     - Centered SVG wheel with 6 colored segments (modular)
+     - Right-side title + supporting copy
+     - Mouse-tilt 3D on the wheel; segment hover = scale + glow
+     - To add/remove segments: duplicate a <g class="segment"> block
+       inside the SVG and update its rotation + label position.
+     ============================================================ -->
+<section class="wheel-section" id="pillars">
+  <div class="container wheel-section__grid">
+    <!-- LEFT: Interactive wheel -->
+    <div class="wheel-tilt" id="wheelTilt">
+      <div class="wheel-tilt__inner">
+        <svg class="wheel" viewBox="-200 -200 400 400" role="img" aria-label="Pillars of learning">
+          <defs>
+            <radialGradient id="wheelShine" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="rgba(255,255,255,.55)"/>
+              <stop offset="60%" stop-color="rgba(255,255,255,0)"/>
+            </radialGradient>
+            <filter id="seg-glow" x="-30%" y="-30%" width="160%" height="160%">
+              <feGaussianBlur stdDeviation="6" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+
+          <!-- Outer soft ring -->
+          <circle r="190" fill="none" stroke="rgba(27,29,26,.06)" stroke-width="1"/>
+
+          <!-- ============ SEGMENTS ============
+               Each segment = pie slice generated for 60° (6 slices).
+               Path d="M0 0 L180 0 A180 180 0 0 1 90 155.88 Z"
+               Rotate the <g> in 60° increments to position. -->
+          <g class="segment" data-label="Curiosity"     style="--c:#F4A261" transform="rotate(-90)">
+            <path d="M0 0 L180 0 A180 180 0 0 1 90 155.88 Z"/>
+            <text class="seg-label" transform="rotate(30) translate(120 0) rotate(60)">Curiosity</text>
+          </g>
+          <g class="segment" data-label="Creativity"    style="--c:#E76F51" transform="rotate(-30)">
+            <path d="M0 0 L180 0 A180 180 0 0 1 90 155.88 Z"/>
+            <text class="seg-label" transform="rotate(30) translate(120 0) rotate(60)">Creativity</text>
+          </g>
+          <g class="segment" data-label="Confidence"    style="--c:#E9C46A" transform="rotate(30)">
+            <path d="M0 0 L180 0 A180 180 0 0 1 90 155.88 Z"/>
+            <text class="seg-label" transform="rotate(30) translate(120 0) rotate(60)">Confidence</text>
+          </g>
+          <g class="segment" data-label="Compassion"    style="--c:#2A9D8F" transform="rotate(90)">
+            <path d="M0 0 L180 0 A180 180 0 0 1 90 155.88 Z"/>
+            <text class="seg-label" transform="rotate(30) translate(120 0) rotate(60)">Compassion</text>
+          </g>
+          <g class="segment" data-label="Communication" style="--c:#264653" transform="rotate(150)">
+            <path d="M0 0 L180 0 A180 180 0 0 1 90 155.88 Z"/>
+            <text class="seg-label" transform="rotate(30) translate(120 0) rotate(60)">Communication</text>
+          </g>
+          <g class="segment" data-label="Critical Thinking" style="--c:#8E7DBE" transform="rotate(210)">
+            <path d="M0 0 L180 0 A180 180 0 0 1 90 155.88 Z"/>
+            <text class="seg-label" transform="rotate(30) translate(120 0) rotate(60)">Thinking</text>
+          </g>
+
+          <!-- Inner white hub -->
+          <circle r="78" fill="#fff"/>
+          <circle r="78" fill="url(#wheelShine)"/>
+          <circle r="78" fill="none" stroke="rgba(27,29,26,.08)"/>
+          <text class="hub-mark" y="-6">✿</text>
+          <text class="hub-title" y="18">6 Pillars</text>
+          <text class="hub-sub" y="36">of Learning</text>
+        </svg>
+
+        <!-- Tooltip -->
+        <span class="wheel-tip" id="wheelTip" aria-hidden="true"></span>
+      </div>
+    </div>
+
+    <!-- RIGHT: Copy -->
+    <div class="wheel-copy">
+      <span class="eyebrow">Our Philosophy</span>
+      <h2 class="wheel-copy__title">
+        Every day we work to <em>empower your child.</em>
+      </h2>
+      <p class="wheel-copy__lede">
+        Our curriculum is built around six pillars that shape confident,
+        compassionate, and curious learners — ready for the world ahead.
+      </p>
+
+      <ul class="wheel-list">
+        <!-- Duplicate <li> to add a pillar -->
+        <li><span class="dot-c" style="background:#F4A261"></span> <strong>Curiosity</strong> — wonder-led discovery</li>
+        <li><span class="dot-c" style="background:#E76F51"></span> <strong>Creativity</strong> — art, music & play</li>
+        <li><span class="dot-c" style="background:#E9C46A"></span> <strong>Confidence</strong> — voice & self-belief</li>
+        <li><span class="dot-c" style="background:#2A9D8F"></span> <strong>Compassion</strong> — empathy in action</li>
+        <li><span class="dot-c" style="background:#264653"></span> <strong>Communication</strong> — language & listening</li>
+        <li><span class="dot-c" style="background:#8E7DBE"></span> <strong>Critical Thinking</strong> — solving real problems</li>
+      </ul>
+
+      <a href="#programs" class="btn btn--primary btn--lg">Explore the curriculum →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Wheel interaction: 3D tilt + segment tooltip; disabled on touch -->
+<script>
+(function(){
+  var stage = document.getElementById('wheelTilt');
+  if(!stage) return;
+  var inner = stage.querySelector('.wheel-tilt__inner');
+  var tip   = document.getElementById('wheelTip');
+  var isTouch = window.matchMedia('(hover:none),(max-width:820px)').matches;
+  var reduce  = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // Segment hover tooltip works on all devices that support hover
+  stage.querySelectorAll('.segment').forEach(function(seg){
+    seg.addEventListener('mouseenter', function(e){
+      tip.textContent = seg.getAttribute('data-label');
+      tip.classList.add('is-visible');
+    });
+    seg.addEventListener('mouseleave', function(){
+      tip.classList.remove('is-visible');
+    });
+    seg.addEventListener('mousemove', function(e){
+      var r = stage.getBoundingClientRect();
+      tip.style.transform = 'translate3d(' + (e.clientX - r.left + 14) + 'px,' + (e.clientY - r.top + 14) + 'px,0)';
+    });
+  });
+
+  if (isTouch || reduce) return;
+
+  var targetRX = 0, targetRY = 0, curRX = 0, curRY = 0;
+  var hovering = false;
+
+  stage.addEventListener('mouseenter', function(){ hovering = true; });
+  stage.addEventListener('mouseleave', function(){
+    hovering = false; targetRX = 0; targetRY = 0;
+  });
+  stage.addEventListener('mousemove', function(e){
+    var r = stage.getBoundingClientRect();
+    var nx = (e.clientX - r.left) / r.width  - 0.5; // -0.5..0.5
+    var ny = (e.clientY - r.top)  / r.height - 0.5;
+    targetRY =  nx * 16;   // rotateY (max ~8deg each side)
+    targetRX = -ny * 16;   // rotateX
+  });
+
+  function loop(){
+    curRX += (targetRX - curRX) * 0.08;
+    curRY += (targetRY - curRY) * 0.08;
+    inner.style.transform =
+      'rotateX(' + curRX.toFixed(2) + 'deg) rotateY(' + curRY.toFixed(2) + 'deg)';
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+</script>
+
+<!-- ============================================================
+     2. PROGRAMS
+     Replace images: /public/images/program-*.jpg
+     ============================================================ -->
+<section id="programs" class="section">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Academics</span>
+      <h2 class="h-display">Programs designed for every stage of childhood.</h2>
+      <p class="section__sub">From first words to first wonders — each programme is crafted with care.</p>
+    </div>
+
+    <div class="programs">
+      <!-- Duplicate this .program card to add more programs -->
+      <article class="program">
+        <div class="program__media">
+          <img src="images/program-preschool.jpg" alt="Preschool" />
+        </div>
+        <div class="program__body">
+          <span class="program__icon">🌱</span>
+          <h3>Preschool</h3>
+          <p>Ages 1.5 – 4. Play-based learning that nurtures confidence, language and imagination.</p>
+          <a href="#" class="link-arrow">Discover →</a>
+        </div>
+      </article>
+
+      <article class="program">
+        <div class="program__media">
+          <img src="images/program-primary.jpg" alt="Primary" />
+        </div>
+        <div class="program__body">
+          <span class="program__icon">📚</span>
+          <h3>Primary</h3>
+          <p>Grades 1 – 5. A rigorous yet joyful curriculum blending CBSE foundations with inquiry.</p>
+          <a href="#" class="link-arrow">Discover →</a>
+        </div>
+      </article>
+
+      <article class="program">
+        <div class="program__media">
+          <img src="images/program-daycare.jpg" alt="Day Care" />
+        </div>
+        <div class="program__body">
+          <span class="program__icon">🧸</span>
+          <h3>Day Care</h3>
+          <p>Safe, warm extended-hour care with nutritious meals, naps and sensory play.</p>
+          <a href="#" class="link-arrow">Discover →</a>
+        </div>
+      </article>
+
+      <article class="program">
+        <div class="program__media">
+          <img src="images/program-clubs.jpg" alt="Clubs" />
+        </div>
+        <div class="program__body">
+          <span class="program__icon">🎨</span>
+          <h3>Clubs</h3>
+          <p>Music, dance, robotics, art & chess — after-school clubs that spark lifelong passions.</p>
+          <a href="#" class="link-arrow">Discover →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     3. GALLERY — Masonry grid
+     Replace images: /public/images/gallery-*.jpg
+     ============================================================ -->
+<section id="gallery" class="section section--tinted">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Moments</span>
+      <h2 class="h-display">A look inside our classrooms.</h2>
+      <p class="section__sub">Real days, real wonder, real growth.</p>
+    </div>
+
+    <div class="masonry">
+      <!-- Duplicate any .masonry__item to add more photos -->
+      <figure class="masonry__item"><img src="images/gallery-1.jpg" alt="Science day" /></figure>
+      <figure class="masonry__item"><img src="images/gallery-2.jpg" alt="Art class"   /></figure>
+      <figure class="masonry__item"><img src="images/gallery-3.jpg" alt="Annual day"  /></figure>
+      <figure class="masonry__item"><img src="images/gallery-4.jpg" alt="Sports day"  /></figure>
+      <figure class="masonry__item"><img src="images/gallery-5.jpg" alt="Library"     /></figure>
+      <figure class="masonry__item"><img src="images/gallery-6.jpg" alt="Gardening"   /></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     4. TESTIMONIALS — YouTube embed cards
+     Replace YouTube IDs in src="https://www.youtube.com/embed/<ID>"
+     ============================================================ -->
+<section id="testimonials" class="section">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Parent Voices</span>
+      <h2 class="h-display">Loved by families across the city.</h2>
+      <p class="section__sub">Hear from the parents who trust us with their little ones.</p>
+    </div>
+
+    <div class="testimonials">
+      <!-- Duplicate this .testimonial card to add more -->
+      <article class="testimonial">
+        <div class="testimonial__video">
+          <iframe src="https://www.youtube.com/embed/ysz5S6PUM-U" title="Parent testimonial" allowfullscreen></iframe>
+        </div>
+        <div class="testimonial__body">
+          <p>“My daughter wakes up excited for school every day. The teachers are extraordinary.”</p>
+          <span class="testimonial__name">— Priya & Arjun · Parents of Anaya, KG</span>
+        </div>
+      </article>
+
+      <article class="testimonial">
+        <div class="testimonial__video">
+          <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" title="Parent testimonial" allowfullscreen></iframe>
+        </div>
+        <div class="testimonial__body">
+          <p>“The campus feels like a warm second home. We couldn't have asked for better.”</p>
+          <span class="testimonial__name">— Rohan · Parent of Vir, Grade 2</span>
+        </div>
+      </article>
+
+      <article class="testimonial">
+        <div class="testimonial__video">
+          <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4" title="Parent testimonial" allowfullscreen></iframe>
+        </div>
+        <div class="testimonial__body">
+          <p>“Confident, curious and kind — that's what Little Florets has shaped in our son.”</p>
+          <span class="testimonial__name">— Meera · Parent of Kabir, Nursery</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     5. NEWS — Image cards
+     Replace images: /public/images/news-*.jpg
+     ============================================================ -->
+<section id="news" class="section section--tinted">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Latest</span>
+      <h2 class="h-display">News & happenings.</h2>
+      <p class="section__sub">A peek into our recent celebrations and stories.</p>
+    </div>
+
+    <div class="news">
+      <!-- Duplicate this .news__card to add more articles -->
+      <article class="news__card">
+        <div class="news__media"><img src="images/news-1.jpg" alt="Award ceremony" /></div>
+        <div class="news__body">
+          <span class="news__date">12 March 2026</span>
+          <h3>Inter-school Quiz Champions 2026</h3>
+          <p>Our young scholars brought home the city-wide trophy with style and grace.</p>
+          <a href="#" class="link-arrow">Read story →</a>
+        </div>
+      </article>
+
+      <article class="news__card">
+        <div class="news__media"><img src="images/news-2.jpg" alt="Annual Day" /></div>
+        <div class="news__body">
+          <span class="news__date">02 February 2026</span>
+          <h3>Annual Day: A Festival of Colours</h3>
+          <p>Hundreds of families celebrated a magical evening of music and dance.</p>
+          <a href="#" class="link-arrow">Read story →</a>
+        </div>
+      </article>
+
+      <article class="news__card">
+        <div class="news__media"><img src="images/news-3.jpg" alt="Field trip" /></div>
+        <div class="news__body">
+          <span class="news__date">18 January 2026</span>
+          <h3>Nature Trail at Cubbon Park</h3>
+          <p>Grade 3 explored ecosystems, sketched leaves and made forest friends.</p>
+          <a href="#" class="link-arrow">Read story →</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     6. BRANCHES
+     Replace images: /public/images/branch-*.jpg
+     ============================================================ -->
+<section id="branches" class="section">
+  <div class="container">
+    <div class="section__head">
+      <span class="eyebrow">Visit Us</span>
+      <h2 class="h-display">Three campuses. One promise.</h2>
+      <p class="section__sub">Beautifully designed spaces close to home.</p>
+    </div>
+
+    <div class="branches">
+      <!-- Duplicate this .branch to add another campus -->
+      <article class="branch">
+        <div class="branch__media"><img src="images/branch-1.jpg" alt="Indiranagar branch" /></div>
+        <div class="branch__body">
+          <h3>Indiranagar Campus</h3>
+          <p class="branch__addr">12, 100 Feet Road, Indiranagar,<br/>Bengaluru 560038</p>
+          <div class="branch__meta">
+            <span>📞 +91 98765 43210</span>
+            <a href="#" class="link-arrow">Get directions →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="branch">
+        <div class="branch__media"><img src="images/branch-2.jpg" alt="Whitefield branch" /></div>
+        <div class="branch__body">
+          <h3>Whitefield Campus</h3>
+          <p class="branch__addr">44, ITPL Main Road, Whitefield,<br/>Bengaluru 560066</p>
+          <div class="branch__meta">
+            <span>📞 +91 98765 43211</span>
+            <a href="#" class="link-arrow">Get directions →</a>
+          </div>
+        </div>
+      </article>
+
+      <article class="branch">
+        <div class="branch__media"><img src="images/branch-3.jpg" alt="Jayanagar branch" /></div>
+        <div class="branch__body">
+          <h3>Jayanagar Campus</h3>
+          <p class="branch__addr">9, 11th Main, 4th Block, Jayanagar,<br/>Bengaluru 560011</p>
+          <div class="branch__meta">
+            <span>📞 +91 98765 43212</span>
+            <a href="#" class="link-arrow">Get directions →</a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     7. CTA — Admissions
+     ============================================================ -->
+<section id="cta" class="cta">
+  <div class="container cta__inner">
+    <span class="eyebrow eyebrow--light">Admissions 2026 — 27</span>
+    <h2 class="display">Give your child a beautiful beginning.</h2>
+    <p class="lede">Limited seats. Personal campus tours every weekday between 10 AM and 4 PM.</p>
+    <div class="cta__actions">
+      <a href="mailto:admissions@littleflorets.in" class="btn btn--primary btn--lg">Apply for Admission →</a>
+      <a href="tel:+919876543210" class="btn btn--ghost btn--lg">Call +91 98765 43210</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="footer">
+  <div class="container footer__grid">
+    <div>
+      <a href="#" class="brand brand--light">
+        <span class="brand__mark">✿</span>
+        <span class="brand__name">Little Florets</span>
+      </a>
+      <p class="footer__tag">Where little minds bloom.</p>
+    </div>
+    <div>
+      <h4>Explore</h4>
+      <a href="#programs">Programs</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#news">News</a>
+    </div>
+    <div>
+      <h4>Visit</h4>
+      <a href="#branches">Branches</a>
+      <a href="#cta">Admissions</a>
+      <a href="mailto:hello@littleflorets.in">hello@littleflorets.in</a>
+    </div>
+    <div>
+      <h4>Follow</h4>
+      <a href="#">Instagram</a>
+      <a href="#">YouTube</a>
+      <a href="#">Facebook</a>
+    </div>
+  </div>
+  <div class="container footer__base">
+    <span>© 2026 Little Florets School. All rights reserved.</span>
+    <span>Made with care in Bengaluru.</span>
+  </div>
+</footer>
+
+<!-- ============================================================
+     GSAP — Scroll reveals + button micro-interactions (global)
+     ============================================================ -->
+<script>
+window.addEventListener('load', function () {
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  gsap.registerPlugin(ScrollTrigger);
+
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var isMobile = window.matchMedia('(max-width: 820px)').matches;
+  if (reduce) return;
+
+  // Tunable intensity — gentler on mobile
+  var dist = isMobile ? 18 : 36;
+  var dur  = isMobile ? 0.7 : 0.95;
+
+  // Section heads — fade + slide up
+  gsap.utils.toArray('.section__head').forEach(function (head) {
+    gsap.from(head.children, {
+      y: dist, opacity: 0, duration: dur, ease: 'power3.out',
+      stagger: 0.08,
+      scrollTrigger: { trigger: head, start: 'top 85%', once: true },
+    });
+  });
+
+  // Card grids — staggered reveal
+  var groups = ['.programs .program', '.masonry__item', '.testimonials .testimonial',
+                '.news__card', '.branches .branch', '.stats .stat', '.wheel-list li'];
+  groups.forEach(function (sel) {
+    var items = gsap.utils.toArray(sel);
+    if (!items.length) return;
+    gsap.from(items, {
+      y: dist, opacity: 0, duration: dur, ease: 'power3.out',
+      stagger: 0.08,
+      scrollTrigger: { trigger: items[0].parentElement, start: 'top 85%', once: true },
+    });
+  });
+
+  // Wheel section copy + wheel pop-in
+  gsap.from('.wheel-copy > *', {
+    x: 24, opacity: 0, duration: dur, ease: 'power3.out', stagger: 0.07,
+    scrollTrigger: { trigger: '.wheel-section', start: 'top 75%', once: true },
+  });
+  gsap.from('.wheel-tilt', {
+    scale: 0.92, opacity: 0, duration: 1.0, ease: 'power3.out',
+    scrollTrigger: { trigger: '.wheel-section', start: 'top 75%', once: true },
+  });
+
+  // CTA section
+  gsap.from('.cta__inner > *', {
+    y: dist, opacity: 0, duration: dur, ease: 'power3.out', stagger: 0.08,
+    scrollTrigger: { trigger: '.cta', start: 'top 80%', once: true },
+  });
+
+  // Button hover micro-interactions — restrained, soft elevation only
+  document.querySelectorAll('.btn').forEach(function (btn) {
+    btn.style.willChange = 'transform, box-shadow';
+    var enter = function () {
+      gsap.to(btn, {
+        y: -2, duration: 0.3, ease: 'power2.out',
+        boxShadow: '0 14px 30px -12px rgba(20,22,18,.18)',
+      });
+    };
+    var leave = function () {
+      gsap.to(btn, {
+        y: 0, duration: 0.4, ease: 'power2.out',
+        boxShadow: '0 0 0 rgba(0,0,0,0)',
+      });
+    };
+    btn.addEventListener('mouseenter', enter);
+    btn.addEventListener('mouseleave', leave);
+    btn.addEventListener('focus', enter);
+    btn.addEventListener('blur', leave);
+  });
+
+  // Cards — gentle lift on hover (less aggressive)
+  document.querySelectorAll('.program, .news__card, .branch, .testimonial, .masonry__item').forEach(function (card) {
+    card.style.willChange = 'transform';
+    card.addEventListener('mouseenter', function () {
+      gsap.to(card, { y: -4, duration: 0.4, ease: 'power2.out' });
+    });
+    card.addEventListener('mouseleave', function () {
+      gsap.to(card, { y: 0, duration: 0.5, ease: 'power2.out' });
+    });
+  });
+});
+</script>
+
+</body>
+</html>
